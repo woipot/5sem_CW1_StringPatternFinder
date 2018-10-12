@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -11,20 +12,14 @@ namespace Kr_1_patern
     /// <inheritdoc />
     internal class MainVM : BindableBase
     {
-        private string _searchStr;
+        private readonly ObservableCollection<string> _files;
+        private readonly ObservableCollection<int> _indexis;
 
-        private ObservableCollection<string> _files;
-        private ObservableCollection<int> _indexis;
+        public string SearchStr { get; set; }
 
-        public string SearchStr
-        {
-            get => _searchStr;
-            set => _searchStr = value;
-        }
+        public IEnumerable<string> Files => _files;
 
-        public ObservableCollection<string> Files => _files;
-
-        public ObservableCollection<int> Indexis => _indexis;
+        public IEnumerable<int> Indexis => _indexis;
 
         public MainVM()
         {
@@ -39,18 +34,21 @@ namespace Kr_1_patern
             get;
         }
 
-        public void Start()
+        private void Start()
         {
-            if (SearchStr == null || SearchStr == "")
-            if(_files.Any()) 
+            if (string.IsNullOrEmpty(SearchStr))
+            {
+                MessageBox.Show(@"Pattern string is empty");
+                return;
+            }
+
+            if (_files.Any()) 
                 _files.Clear();
 
             if (_indexis.Any())
                 _indexis.Clear();
 
             var folderBrowser = new FolderBrowserDialog();
-
-            var result = folderBrowser.ShowDialog();
 
             if (!string.IsNullOrWhiteSpace(folderBrowser.SelectedPath))
             {
