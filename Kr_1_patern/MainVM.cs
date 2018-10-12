@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -8,7 +7,9 @@ using Microsoft.Practices.Prism.Mvvm;
 
 namespace Kr_1_patern
 {
-    class MainVM : BindableBase
+    /// This program can find first string match in directory files
+    /// <inheritdoc />
+    internal class MainVM : BindableBase
     {
         private string _searchStr;
 
